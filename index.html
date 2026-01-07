@@ -1,0 +1,1218 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Veloce Dynamics | STEM Racing Documents</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050816;
+      --accent1: #22d3ee; /* cyan */
+      --accent2: #6366f1; /* indigo */
+      --accent3: #a855f7; /* violet */
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --card: #020617;
+      --border: rgba(148, 163, 184, 0.35);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(99, 102, 241, 0.18), transparent 55%),
+        radial-gradient(circle at bottom, #020617 0, #000000 60%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* animated glow overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -200px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(168, 85, 247, 0.22), transparent 55%);
+      opacity: 0.4;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      animation: floatGlow 18s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    @keyframes floatGlow {
+      0% { transform: translate3d(-40px, -20px, 0) scale(1); }
+      100% { transform: translate3d(40px, 20px, 0) scale(1.1); }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1.2rem 1.4rem 3rem;
+    }
+
+    /* NAVBAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.96),
+        rgba(0, 0, 0, 0.78),
+        transparent
+      );
+      border-bottom: 1px solid rgba(15, 23, 42, 0.7);
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.6rem 1.4rem 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo-wrap {
+      width: 140px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: auto;
+    }
+
+    .team-name {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: linear-gradient(to right, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: -0.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.3rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      position: relative;
+      padding-bottom: 0.2rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(to right, var(--accent1), var(--accent3));
+      border-radius: 999px;
+      transition: width 0.22s ease-out;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 0.5rem 1.1rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: radial-gradient(circle at top left, #0b1120, #020617);
+      cursor: pointer;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+        border-color 0.18s ease-out;
+    }
+
+    .nav-cta span { font-size: 0.9rem; }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(59, 130, 246, 0.4);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 0;
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 2.4rem;
+      margin-top: 1.4rem;
+      padding: 1.6rem 1.2rem 2rem;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at top left, rgba(34, 211, 238, 0.22), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.24), transparent 55%),
+        linear-gradient(145deg, #020617 0, #020617 50%, #020617 70%, #020617 100%);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(34, 211, 238, 0.2), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.28), transparent 55%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.18rem 0.75rem;
+      font-size: 0.7rem;
+      border-radius: var(--radius-full);
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.22);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 4vw, 2.7rem);
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.93rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.35rem;
+      font-size: 0.83rem;
+    }
+
+    .meta-pill {
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(0, 0, 0, 0.55);
+      color: var(--muted);
+    }
+
+    .meta-pill strong { color: var(--text); font-weight: 600; }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      border-radius: var(--radius-full);
+      padding: 0.55rem 1.3rem;
+      font-size: 0.85rem;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+        filter 0.18s ease-out;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent1), var(--accent2), var(--accent3));
+      color: #020617;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+    }
+
+    .btn-primary span,
+    .btn-secondary span { font-size: 1rem; }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+      filter: brightness(1.05);
+    }
+
+    .hero-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+    }
+
+    .hero-note strong { color: var(--text); }
+
+    .hero-right { position: relative; }
+
+    .car-card {
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+      border-radius: 1.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 1.1rem 1.1rem 1rem;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.95);
+      position: relative;
+      overflow: hidden;
+      animation: carFloat 10s ease-in-out infinite alternate;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    .car-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 1);
+    }
+
+    @keyframes carFloat {
+      0% { transform: translateY(0) translateX(0); }
+      100% { transform: translateY(-6px) translateX(3px); }
+    }
+
+    .car-tag {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.4rem;
+    }
+
+    .car-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ✅ NEW: real image frame (replaces placeholder styling) */
+    .car-image {
+      margin: 0.7rem 0 0.8rem;
+      height: 150px;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      background: transparent; /* set to #020617 or #fff if you want */
+      border: none;
+    }
+
+    /* ✅ Carousel CSS moved to head */
+    .carousel-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-track {
+      height: 100%;
+      display: flex;
+      gap: 10px;
+      animation: scrollImages 25s linear infinite;
+    }
+
+    .carousel-track img {
+      height: 100%;
+      width: auto;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    @keyframes scrollImages {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-80%); }
+    }
+
+    .car-stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      font-size: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .car-stat-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.68rem;
+    }
+
+    .car-stat-value { font-weight: 600; }
+
+    /* SECTION WRAPPER */
+    section { margin-top: 2.4rem; }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 30rem;
+    }
+
+    /* DOCUMENTS GRID */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .portfolio-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1rem 0.9rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+        border-color 0.18s ease-out;
+    }
+
+    .portfolio-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right,
+          rgba(34, 211, 238, 0.16), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.18s ease-out;
+      pointer-events: none;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 1);
+      border-color: rgba(191, 219, 254, 0.7);
+    }
+
+    .portfolio-card:hover::before { opacity: 1; }
+
+    .portfolio-badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .portfolio-title { font-size: 1rem; margin-bottom: 0.3rem; }
+
+    .portfolio-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .portfolio-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .portfolio-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--muted);
+    }
+
+    .link-button {
+      padding: 0.35rem 0.85rem;
+      font-size: 0.78rem;
+      border-radius: var(--radius-full);
+      border: 0;
+      background: linear-gradient(120deg, rgba(34, 211, 238, 0.25), rgba(168, 85, 247, 0.35));
+      color: var(--accent1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out,
+        filter 0.16s ease-out;
+    }
+
+    .link-button span { font-size: 0.9rem; }
+
+    .link-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.7);
+      filter: brightness(1.08);
+    }
+
+    /* TEAM SECTION */
+    .team-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 1.6rem;
+    }
+
+    .team-card,
+    .team-right-card,
+    .contact-card {
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+        border-color 0.18s ease-out;
+    }
+
+    .team-card {
+      background: var(--bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+      font-size: 0.87rem;
+      color: var(--muted);
+    }
+
+    .team-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.4rem;
+    }
+
+    .member {
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 0.78rem;
+      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out,
+        border-color 0.16s ease-out;
+    }
+
+    .member-role {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .member-name { font-weight: 600; margin-bottom: 0.1rem; }
+    .member-focus { font-size: 0.75rem; color: var(--muted); }
+
+    .member:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    .team-right-card {
+      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.16), #020617);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      font-size: 0.83rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-right-card h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+
+    .team-card:hover,
+    .team-right-card:hover,
+    .contact-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 1);
+      border-color: rgba(191, 219, 254, 0.8);
+    }
+
+    .highlight-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .highlight-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent1);
+    }
+
+    /* TERMS / INTEGRITY */
+    .terms-card {
+      margin-top: 1.6rem;
+      padding: 1rem 1.1rem;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(248, 250, 252, 0.3);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .terms-card strong { color: var(--text); }
+
+    .terms-list {
+      margin-top: 0.4rem;
+      padding-left: 1rem;
+    }
+
+    .terms-list li { margin-bottom: 0.15rem; }
+
+    /* CONTACT / FOOTER */
+    .contact-card {
+      margin-top: 1.8rem;
+      padding: 1rem 1.1rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.9);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.4rem;
+      font-size: 0.84rem;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .contact-item {
+      padding: 0.4rem 0.7rem;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out,
+        border-color 0.16s ease-out;
+    }
+
+    .social-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(191, 219, 254, 0.9);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+    }
+
+    footer {
+      margin-top: 1.8rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ✅ NEW: Fix anchor scroll being hidden behind sticky header */
+    section {
+      scroll-margin-top: 110px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .nav { padding: 0.6rem 1.1rem 0.7rem; }
+
+      .nav-links,
+      .nav-cta { display: none; }
+
+      .nav-toggle { display: block; }
+
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 3.1rem;
+        right: 1.1rem;
+        background: rgba(0, 0, 0, 0.98);
+        padding: 0.8rem 1rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        box-shadow: var(--shadow-soft);
+        z-index: 30;
+      }
+
+      .nav-cta.mobile-open {
+        display: inline-flex;
+        position: absolute;
+        top: 7.4rem;
+        right: 1.1rem;
+        z-index: 29;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.3rem 1.1rem 1.5rem;
+      }
+
+      .hero-right { order: -1; }
+      .portfolio-grid { grid-template-columns: minmax(0, 1fr); }
+      .team-layout { grid-template-columns: minmax(0, 1fr); }
+      .team-grid { grid-template-columns: minmax(0, 1fr); }
+      .contact-card { grid-template-columns: minmax(0, 1fr); }
+      .page { padding-inline: 1.1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-wrap">
+          <img src="image/Veloce Dynamics Logo no background.png" alt="Veloce Dynamics logo" />
+        </div>
+        <div>
+          <div class="team-name">Veloce Dynamics</div>
+          <div class="tagline">Smiling International School Ferrara</div>
+        </div>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <button class="nav-cta" id="navCta">
+        <span>⬇</span> View Documents
+      </button>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+    </nav>
+  </header>
+
+  <main class="page">
+    <!-- HERO -->
+    <section class="hero reveal" id="top">
+      <div>
+        <div class="hero-pill">
+          <span class="hero-pill-dot"></span>
+          <span>Official team documents</span>
+        </div>
+        <h1 class="hero-title">
+          <span>Veloce Dynamics</span> STEM Racing
+        </h1>
+        <p class="hero-subtitle">
+          This site hosts the Engineering, Enterprise and Project Management documents of Veloce Dynamics
+          for the STEM Racing competition. Explore how we design, model and promote our car.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-pill">
+            Season <strong>2025/2026</strong>
+          </div>
+          <div class="meta-pill">
+            School <strong>Smiling International School Ferrara</strong>
+          </div>
+          <div class="meta-pill">
+            Location <strong>Ferrara, Italy</strong>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="document.querySelector('#documents').scrollIntoView({behavior:'smooth'})">
+            View Documents <span>↘</span>
+          </button>
+          <button class="btn-secondary" onclick="document.querySelector('#team').scrollIntoView({behavior:'smooth'})">
+            Meet the Team <span>👥</span>
+          </button>
+        </div>
+
+        <p class="hero-note">
+          <strong>Note:</strong> This website is an independent student project and is not affiliated with the official organisers.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="car-card">
+          <div class="car-tag">Race Car</div>
+          <div class="car-name">Concept</div>
+
+          <!-- ✅ FIXED: placeholder removed, now a real image container -->
+          <div class="car-image">
+            <div class="carousel-container">
+              <div class="carousel-track">
+                <img src="image/Car prototype.jpg" alt="Car Image 1" />
+                <img src="image/Car Prototype 2.jpg" alt="Car Image 2" />
+                <img src="image/Car Prototype 3.jpg" alt="Car Image 3" />
+                <img src="image/Veloce Dynamics Car.jpg" alt="Car Image 4" />
+              </div>
+            </div>
+          </div>
+
+          <div class="car-stats">
+            <div>
+              <div class="car-stat-label">CFD runs</div>
+              <div class="car-stat-value">XX+</div>
+            </div>
+            <div>
+              <div class="car-stat-label">Best reaction</div>
+              <div class="car-stat-value">0.000s</div>
+            </div>
+            <div>
+              <div class="car-stat-label">Record time</div>
+              <div class="car-stat-value">0.000s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section id="documents" class="reveal">
+      <div class="section-heading">
+        <div>
+          <h2 class="section-title">Documents</h2>
+        </div>
+        <p class="section-subtitle">
+          All files are provided in PDF format. Replace the placeholder links with your official Veloce Dynamics documents.
+        </p>
+      </div>
+
+      <div class="portfolio-grid">
+        <!-- Engineering -->
+        <article class="portfolio-card reveal">
+          <div>
+            <div class="portfolio-badge">Engineering</div>
+            <h3 class="portfolio-title">Engineering Document (PDF)</h3>
+            <p class="portfolio-desc">
+              Car modelling, aerodynamics, CFD simulations, testing and manufacturing of the Veloce Dynamics race car.
+            </p>
+            <p class="portfolio-meta">
+              File: <strong>VeloceDynamics_Engineering.pdf</strong>
+            </p>
+          </div>
+          <div class="portfolio-actions">
+            <span class="chip">Recommended view: Full screen</span>
+            <a href="assets/VeloceDynamics_Engineering.pdf" target="_blank" class="link-button" rel="noopener noreferrer">
+              <span>↗</span> Open
+            </a>
+          </div>
+        </article>
+
+        <!-- Enterprise -->
+        <article class="portfolio-card reveal">
+          <div>
+            <div class="portfolio-badge">Enterprise</div>
+            <h3 class="portfolio-title">Enterprise Document (PDF)</h3>
+            <p class="portfolio-desc">
+              Branding, partnerships, sponsorship strategy, marketing campaigns and social media of Veloce Dynamics.
+            </p>
+            <p class="portfolio-meta">
+              File: <strong>VeloceDynamics_Enterprise.pdf</strong>
+            </p>
+          </div>
+          <div class="portfolio-actions">
+            <span class="chip">Focus: branding & sponsors</span>
+            <a href="assets/VeloceDynamics_Enterprise.pdf" target="_blank" class="link-button" rel="noopener noreferrer">
+              <span>↗</span> Open
+            </a>
+          </div>
+        </article>
+
+        <!-- Project Management -->
+        <article class="portfolio-card reveal">
+          <div>
+            <div class="portfolio-badge">Project Mgmt</div>
+            <h3 class="portfolio-title">Project Management Document (PDF)</h3>
+            <p class="portfolio-desc">
+              Planning, risk analysis and milestones that guided Veloce Dynamics from concept to competition.
+            </p>
+            <p class="portfolio-meta">
+              File: <strong>VeloceDynamics_ProjectManagement.pdf</strong>
+            </p>
+          </div>
+          <div class="portfolio-actions">
+            <span class="chip">Timeline & organisation</span>
+            <a href="assets/VeloceDynamics_ProjectManagement.pdf" target="_blank" class="link-button" rel="noopener noreferrer">
+              <span>↗</span> Open
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Terms / Integrity -->
+      <div class="terms-card reveal">
+        <strong>Academic integrity & competition rules</strong>
+        <ul class="terms-list">
+          <li>All documents linked here are original work created by Veloce Dynamics.</li>
+          <li>We respect the intellectual property of other teams and do not copy designs or text.</li>
+          <li>Any inspiration from public examples is adapted and reinterpreted into our own work.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="reveal">
+      <div class="section-heading">
+        <h2 class="section-title">Team</h2>
+        <p class="section-subtitle">
+          Veloce Dynamics brings together modelling, physics and marketing expertise, supported by dedicated teachers.
+        </p>
+      </div>
+
+      <div class="team-layout">
+        <div class="team-card">
+          <h3>Roles & members</h3>
+          <p>
+            These are the students behind Veloce Dynamics. Each role is essential to developing and presenting our car.
+          </p>
+
+          <div class="team-grid">
+            <div class="member">
+              <div class="member-role">Car Modelling & Design</div>
+              <div class="member-name">Francesco Zapparoli</div>
+              <div class="member-focus">3D modelling of the STEM racing car and optimisation of the geometry.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">Car Modelling & Design</div>
+              <div class="member-name">Lorenzo Gildone</div>
+              <div class="member-focus">3D modelling of the STEM racing car and optimisation of the geometry.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">Marketing Advisor</div>
+              <div class="member-name">Boyan Michev</div>
+              <div class="member-focus">Brand strategy, sponsor outreach and communication planning.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">Marketing Advisor</div>
+              <div class="member-name">Melissa Zighami</div>
+              <div class="member-focus">Visual communication, social media content and public relations.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">External Support</div>
+              <div class="member-name">Arsenii Nesterenkov</div>
+              <div class="member-focus">Technical support and feedback on design decisions and documentation.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">Physics & Performance</div>
+              <div class="member-name">Riccardo Scabbia</div>
+              <div class="member-focus">Physical principles behind the car, data analysis and performance modelling.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">External Support</div>
+              <div class="member-name">Sara Ibrahim</div>
+              <div class="member-focus">Physical principles behind the car, data analysis and performance modelling.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-right-card">
+          <h3>Season highlights</h3>
+          <p>
+            Update this panel after each competition with results, awards and major milestones achieved by Veloce Dynamics.
+          </p>
+          <ul class="terms-list">
+            <li>Regional finals – result / awards</li>
+            <li>National finals – result / ranking</li>
+            <li>Community outreach and STEM events</li>
+          </ul>
+
+          <div class="highlight-pill">
+            <span class="highlight-dot"></span>
+            <span>Keep this updated during the season</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEACHERS / MENTORS SECTION -->
+      <div class="team-layout" style="margin-top: 2rem;">
+        <div class="team-right-card" style="grid-column: span 2;">
+          <h3>Teachers & Mentors</h3>
+          <p style="margin-bottom: 0.8rem;">
+            Veloce Dynamics is supported by teachers who guide us in engineering decisions, teamwork and professional conduct.
+          </p>
+
+          <div class="team-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+            <div class="member">
+              <div class="member-role">Lead Teacher</div>
+              <div class="member-name">Arun Prabagar</div>
+              <div class="member-focus">Overall coordination of the project and technical mentoring.</div>
+            </div>
+
+            <div class="member">
+              <div class="member-role">STEM Mentor</div>
+              <div class="member-name">Eleonora Morelli</div>
+              <div class="member-focus">Documentation and competition preparation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+      <div class="section-heading">
+        <h2 class="section-title">Contact & links</h2>
+        <p class="section-subtitle">
+          For judges, partners and schools: use the channels below to reach Veloce Dynamics or follow our progress.
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <div>
+          <h3>Contact</h3>
+          <p>
+            We are happy to answer questions about our project, outreach or potential collaborations.
+          </p>
+          <div class="contact-row">
+            <div class="contact-item">
+              Email: <strong>veloce.dynamics@smilinginternationalschool.eu</strong>
+            </div>
+            <div class="contact-item">
+              School:
+              <strong>
+                <a href="https://smilinginternationalschool.eu/" target="_blank" rel="noopener noreferrer">
+                  Smiling International School Ferrara, Italy
+                </a>
+              </strong>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>Social</h3>
+          <div class="socials">
+            <a class="social-link"
+               href="https://www.instagram.com/velocedynamics?igsh=azV3YTRrMnBpc2dj&utm_source=qr"
+               target="_blank"
+               rel="noopener noreferrer">
+              Instagram
+            </a>
+            <a class="social-link"
+               href="http://www.youtube.com/@velocedynamics"
+               target="_blank"
+               rel="noopener noreferrer">
+              YouTube
+            </a>
+
+            <!-- ✅ FIXED: TikTok link now actually goes somewhere -->
+            <a class="social-link"
+               href="https://www.tiktok.com/@YOURUSERNAME"
+               target="_blank"
+               rel="noopener noreferrer">
+              TikTok
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      &copy; 2025/2026 Veloce Dynamics – Student STEM Racing team. All content & designs are original work for the competition.
+    </footer>
+  </main>
+
+  <script>
+    // Simple mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navCta = document.getElementById('navCta');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('mobile-open');
+      navCta.classList.toggle('mobile-open');
+    });
+
+    // CTA scroll
+    navCta.addEventListener('click', () => {
+      document.querySelector('#documents').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
+```
+
+**What you still need to change:** replace `YOURUSERNAME` in the TikTok link with your real TikTok handle.
