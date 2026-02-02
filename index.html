@@ -410,9 +410,12 @@
    .carousel-track {
       height: 100%;
       display: flex;
-      gap: 10px;
-      /* CHANGED from 25s to 60s so it doesn't spin too fast */
-      animation: scrollImages 20s linear infinite;
+      /* IMPORTANT: Set gap to 0. We use margin on images instead for perfect looping. */
+      gap: 0;
+      /* 30s is a good speed. Lower number = Faster */
+      animation: scrollImages 30s linear infinite;
+      /* Ensure the track is wide enough for all images */
+      width: max-content; 
     }
 
     .carousel-track img {
@@ -421,14 +424,15 @@
       border-radius: 8px;
       flex-shrink: 0;
       display: block;
+      /* Add the spacing here instead of using gap */
+      margin-right: 10px; 
     }
 
     @keyframes scrollImages {
       0% { transform: translateX(0); }
-      /* CHANGED: -50% means it scrolls exactly one full set of images before looping */
+      /* Move exactly -50% to switch seamlessly to the duplicate set */
       100% { transform: translateX(-50%); }
     }
-
     .car-stats {
       display: flex;
       justify-content: space-between;
