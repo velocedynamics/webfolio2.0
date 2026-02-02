@@ -589,13 +589,20 @@
     }
 
     .team-card {
-      background: var(--bg-alt);
+      /* CHANGED: Match the gradient background of the other boxes */
+      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.16), #020617);
+      
       border-radius: var(--radius-lg);
       padding: 1rem 1.1rem;
-      border: 1px solid var(--border);
+      
+      /* CHANGED: Match the brighter border color */
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
       font-size: 0.87rem;
-      color: var(--muted);
+      
+      /* CHANGED: Removed 'color: var(--muted)' so text is bright white like the others */
+      color: var(--text);
     }
 
     .team-card h3 {
