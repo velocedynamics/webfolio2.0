@@ -181,7 +181,7 @@
         clearTimeout(timeoutId);
         gameState = 'result';
         lights.forEach(l => l.classList.remove('on')); // Turn off lights
-        statusText.innerHTML = 'Jump Start! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked before the lights went out. Click to try again.</span>';
+        statusText.innerHTML = 'Jump Start you naughty boy/girl! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked before the lights went out. Stop doing that and be a good boy/girl~ Click to start again.</span>';
       } 
       
       // 3. Successfully clicked after lights went out
@@ -203,7 +203,8 @@
         if (reactionTime < 180) commentary = "F1 World Champion! 🏆🏎️";
         else if (reactionTime < 250) commentary = "Incredible Start! 🏁";
         else if (reactionTime < 350) commentary = "Good reaction! 🚥";
-        else commentary = "Are we deadass? 💀";
+        else if (reactionTime < 500) commentary = "Caught sleeping on the grid… 🐢";
+        else commentary = "Are we deadass? 🫩";
 
         statusText.innerHTML = `${reactionTime} ms ${newBestAlert}<br><span style="font-size: 1.2rem; font-weight: 400; color: var(--accent1);">${commentary}</span><br><span style="font-size: 0.9rem; font-weight: 400; color: #9ca3af; margin-top: 10px; display: block;">Click to play again</span>`;
       }
