@@ -174,11 +174,8 @@
     let startTime;
     let timeoutId;
 
-    // Load best time from browser storage when the page loads
-    let bestTime = localStorage.getItem('veloceBestTime');
-    if (bestTime) {
-      bestTimeDisplay.innerText = `Best Time: ${bestTime} ms 🏆`;
-    }
+    // CHANGED: This variable now starts empty every single time the page loads!
+    let bestTime = null;
 
     clickArea.addEventListener('click', () => {
       // 1. Idle state -> Start the game (Red Light)
@@ -216,10 +213,10 @@
         
         let newBestAlert = "";
 
-        // Check if this is a new best time!
-        if (!bestTime || reactionTime < parseInt(bestTime)) {
+        // CHANGED: Check if this is a new best time for this specific session
+        if (!bestTime || reactionTime < bestTime) {
           bestTime = reactionTime;
-          localStorage.setItem('veloceBestTime', bestTime); // Save to browser
+          // Notice we removed the localStorage saving line here!
           bestTimeDisplay.innerText = `Best Time: ${bestTime} ms 🏆`;
           newBestAlert = "<br><span style='color: #fbbf24; font-weight: bold;'>NEW BEST TIME! 🎉</span>";
         }
