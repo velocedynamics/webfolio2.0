@@ -181,7 +181,7 @@
         clearTimeout(timeoutId);
         gameState = 'result';
         lights.forEach(l => l.classList.remove('on')); // Turn off lights
-        statusText.innerHTML = 'Jump Start you naughty boy/girl! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked before the lights went out. Stop doing that and be a good boy/girl~ Click to start again.</span>';
+        statusText.innerHTML = 'Jump Start you naughty boy/girl! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked before lights went out. Stop doing that and be a good boy/girl~ Click to start again.</span>';
       } 
       
       // 3. Successfully clicked after lights went out
