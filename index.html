@@ -952,6 +952,26 @@
       </div>
     </section>
 
+    <section id="reaction-test" class="reveal" style="margin-bottom: 3rem;">
+      <div class="team-right-card" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 2rem; position: relative; overflow: hidden;">
+        
+        <div style="z-index: 2; min-width: 250px; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text);">Test Your Reaction Time!</h3>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; max-width: 350px;">
+            In STEM Racing, reaction time is everything. Click the button to test your reflexes and launch our car down the track!
+          </p>
+          <a href="#" target="_blank" id="race-btn" class="btn-primary" style="text-decoration: none;">
+            Start Race <span>🚦</span>
+          </a>
+        </div>
+
+        <div id="track-container" style="flex-grow: 1; position: relative; height: 120px; min-width: 300px; margin-left: 1rem; border-bottom: 3px dashed rgba(148, 163, 184, 0.4);">
+          <img id="racing-car" src="images/ISOMETRIC VIEW1.png" alt="Racing Car" style="position: absolute; bottom: 5px; left: 0; height: 100px; width: auto; transition: transform 0.5s cubic-bezier(0.5, 0, 0.1, 1);">
+        </div>
+
+      </div>
+    </section>
+    
     <!-- DOCUMENTS -->
     <section id="documents" class="reveal">
       <div class="section-heading">
@@ -1247,6 +1267,25 @@
     );
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    // --- RACING CAR ANIMATION ---
+    const raceBtn = document.getElementById('race-btn');
+    const racingCar = document.getElementById('racing-car');
+    const trackContainer = document.getElementById('track-container');
+
+    if(raceBtn && racingCar && trackContainer) {
+      raceBtn.addEventListener('click', (e) => {
+        // Calculate the distance to the end of the track
+        const distance = trackContainer.offsetWidth - racingCar.offsetWidth;
+        
+        // Shoot the car forward!
+        racingCar.style.transform = `translateX(${distance}px)`;
+        
+        // Bring the car back to the start line after 3 seconds
+        setTimeout(() => {
+          racingCar.style.transform = 'translateX(0)';
+        }, 3000);
+      });
+    }
   </script>
 </body>
 </html>
