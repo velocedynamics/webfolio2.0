@@ -153,6 +153,10 @@
     
     <h1>STEM Racing Reaction Test</h1>
     <p>F1 drivers need a reaction time of around 0.200s. Do you have what it takes?</p>
+    
+    <div id="best-time-display" style="font-size: 1.2rem; font-weight: 700; color: var(--accent1); margin-bottom: 1.5rem; background: rgba(34, 211, 238, 0.1); padding: 0.5rem 1rem; border-radius: 99px; border: 1px solid rgba(34, 211, 238, 0.3); display: inline-block;">
+      Best Time: -- ms 🏆
+    </div>
 
     <div id="click-area">
       <div id="status-text">Click to Start</div>
@@ -164,10 +168,17 @@
   <script>
     const clickArea = document.getElementById('click-area');
     const statusText = document.getElementById('status-text');
+    const bestTimeDisplay = document.getElementById('best-time-display');
     
     let gameState = 'idle'; // idle, waiting, go, result
     let startTime;
     let timeoutId;
+
+    // Load best time from browser storage when the page loads
+    let bestTime = localStorage.getItem('veloceBestTime');
+    if (bestTime) {
+      bestTimeDisplay.innerText = `Best Time: ${bestTime} ms 🏆`;
+    }
 
     clickArea.addEventListener('click', () => {
       // 1. Idle state -> Start the game (Red Light)
@@ -203,6 +214,16 @@
         clickArea.className = '';
         clickArea.style.backgroundColor = 'rgba(30, 41, 59, 0.8)';
         
+        let newBestAlert = "";
+
+        // Check if this is a new best time!
+        if (!bestTime || reactionTime < parseInt(bestTime)) {
+          bestTime = reactionTime;
+          localStorage.setItem('veloceBestTime', bestTime); // Save to browser
+          bestTimeDisplay.innerText = `Best Time: ${bestTime} ms 🏆`;
+          newBestAlert = "<br><span style='color: #fbbf24; font-weight: bold;'>NEW BEST TIME! 🎉</span>";
+        }
+
         // Add some fun commentary based on speed
         let commentary = "";
         if (reactionTime < 200) commentary = "F1 Level Reflexes! 🏎️💨";
@@ -210,10 +231,9 @@
         else if (reactionTime < 400) commentary = "Solid start! 🚥";
         else commentary = "A bit slow off the line... 🐢";
 
-        statusText.innerHTML = `${reactionTime} ms<br><span style="font-size: 1.2rem; font-weight: 400; color: var(--accent1);">${commentary}</span><br><span style="font-size: 0.9rem; font-weight: 400; color: #9ca3af; margin-top: 10px; display: block;">Click to play again</span>`;
+        statusText.innerHTML = `${reactionTime} ms ${newBestAlert}<br><span style="font-size: 1.2rem; font-weight: 400; color: var(--accent1);">${commentary}</span><br><span style="font-size: 0.9rem; font-weight: 400; color: #9ca3af; margin-top: 10px; display: block;">Click to play again</span>`;
       }
     });
   </script>
-
 </body>
 </html>
