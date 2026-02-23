@@ -1286,13 +1286,8 @@
         
         // 4. Wait for the animation to finish (500 milliseconds = 0.5s)
         setTimeout(() => {
-          // Open the game link in a new tab
-          window.open(raceBtn.href, '_blank');
-          
-          // Reset the car back to the start line shortly after
-          setTimeout(() => {
-            racingCar.style.transform = 'translateX(0)';
-          }, 1000);
+          // CHANGED: Open the game link in the SAME tab
+          window.location.href = raceBtn.href;
           
         }, 500); // This exactly matches the 0.5s CSS transition time of the car
       });
