@@ -1267,23 +1267,33 @@
     );
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-    // --- RACING CAR ANIMATION ---
+   // --- RACING CAR ANIMATION ---
     const raceBtn = document.getElementById('race-btn');
     const racingCar = document.getElementById('racing-car');
     const trackContainer = document.getElementById('track-container');
 
     if(raceBtn && racingCar && trackContainer) {
       raceBtn.addEventListener('click', (e) => {
-        // Calculate the distance to the end of the track
+        // 1. Stop the link from opening immediately!
+        e.preventDefault();
+        
+        // 2. Calculate the distance to the end of the track
         const distance = trackContainer.offsetWidth - racingCar.offsetWidth;
         
-        // Shoot the car forward!
+        // 3. Shoot the car forward!
         racingCar.style.transform = `translateX(${distance}px)`;
         
-        // Bring the car back to the start line after 3 seconds
+        // 4. Wait for the animation to finish (500 milliseconds = 0.5s)
         setTimeout(() => {
-          racingCar.style.transform = 'translateX(0)';
-        }, 3000);
+          // Open the game link in a new tab
+          window.open(raceBtn.href, '_blank');
+          
+          // Reset the car back to the start line shortly after
+          setTimeout(() => {
+            racingCar.style.transform = 'translateX(0)';
+          }, 1000);
+          
+        }, 500); // This exactly matches the 0.5s CSS transition time of the car
       });
     }
   </script>
