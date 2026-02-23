@@ -8,27 +8,21 @@
   <style>
     :root {
       --bg: #020617;
-      --bg-alt: #050816;
       --accent1: #22d3ee;
       --accent2: #6366f1;
       --accent3: #a855f7;
       --text: #f9fafb;
       --muted: #9ca3af;
-      --card: #020617;
       --border: rgba(148, 163, 184, 0.35);
       --radius-lg: 18px;
       --radius-full: 999px;
       --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       background: radial-gradient(circle at top, rgba(99, 102, 241, 0.18), transparent 55%), radial-gradient(circle at bottom, #020617 0, #000000 60%);
       color: var(--text);
       min-height: 100vh;
@@ -41,125 +35,97 @@
       padding: 2rem;
     }
 
-    /* Animated background glow */
     body::before {
-      content: "";
-      position: absolute;
-      inset: -200px;
+      content: ""; position: absolute; inset: -200px;
       background: radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.18), transparent 55%), radial-gradient(circle at 80% 100%, rgba(168, 85, 247, 0.22), transparent 55%);
-      opacity: 0.4;
-      mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: -1;
+      opacity: 0.4; mix-blend-mode: screen; pointer-events: none; z-index: -1;
     }
 
     .game-container {
       background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-      box-shadow: var(--shadow-soft);
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      position: relative;
+      border-radius: var(--radius-lg); border: 1px solid var(--border);
+      padding: 2.5rem; box-shadow: var(--shadow-soft);
+      max-width: 650px; width: 100%; text-align: center;
     }
 
-    .logo {
-      width: 150px;
-      margin: 0 auto 1rem auto;
-      display: block;
-    }
+    .logo { width: 150px; margin: 0 auto 1rem auto; display: block; }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.2rem; margin-bottom: 0.5rem;
       background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
 
-    p {
-      color: var(--muted);
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
+    p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+    #best-time-display {
+      font-size: 1.2rem; font-weight: 700; color: var(--accent1);
+      margin-bottom: 1.5rem; background: rgba(34, 211, 238, 0.1);
+      padding: 0.5rem 1rem; border-radius: 99px;
+      border: 1px solid rgba(34, 211, 238, 0.3); display: inline-block;
     }
 
-    /* The main clickable game area */
+    /* THE F1 LIGHTS AND CLICK AREA */
     #click-area {
-      width: 100%;
-      height: 300px;
-      border-radius: 12px;
-      background-color: rgba(30, 41, 59, 0.8);
+      width: 100%; height: 320px; border-radius: 12px;
+      background-color: rgba(30, 41, 59, 0.6);
       border: 2px dashed rgba(148, 163, 184, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background-color 0.1s, transform 0.1s;
-      user-select: none;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; user-select: none; transition: transform 0.1s;
+    }
+    #click-area:active { transform: scale(0.98); }
+
+    .lights-container {
+      display: flex; gap: 15px; margin-bottom: 30px;
+      background: #0f172a; padding: 15px 25px;
+      border-radius: 12px; border: 2px solid #334155;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
-    #click-area:active {
-      transform: scale(0.98);
+    .light {
+      width: 45px; height: 45px; border-radius: 50%;
+      background-color: #334155; /* Off state */
+      border: 2px solid #1e293b;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+      transition: background-color 0.1s, box-shadow 0.1s;
     }
 
-    /* Game States */
-    #click-area.waiting {
-      background-color: #ef4444; /* Red */
-      border-color: #f87171;
-      box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);
+    .light.on {
+      background-color: #ef4444; /* Bright Red */
+      border-color: #fca5a5;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.9), inset 0 0 10px rgba(255,255,255,0.3);
     }
 
-    #click-area.go {
-      background-color: #22c55e; /* Green */
-      border-color: #4ade80;
-      box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
-    }
-
-    #status-text {
-      font-size: 2rem;
-      font-weight: 700;
-      pointer-events: none;
-    }
+    #status-text { font-size: 1.8rem; font-weight: 700; pointer-events: none; }
 
     .btn-secondary {
-      border-radius: var(--radius-full);
-      padding: 0.55rem 1.3rem;
-      font-size: 0.85rem;
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      text-decoration: none;
-      margin-top: 2rem;
-      display: inline-block;
-      transition: all 0.2s;
+      border-radius: var(--radius-full); padding: 0.55rem 1.3rem; font-size: 0.85rem;
+      background: transparent; color: var(--text); border: 1px solid rgba(148, 163, 184, 0.8);
+      cursor: pointer; text-transform: uppercase; letter-spacing: 0.12em; text-decoration: none;
+      margin-top: 2rem; display: inline-block; transition: all 0.2s;
     }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
   </style>
 </head>
 <body>
 
   <div class="game-container">
-    <img src="images/velocedynamicslogo.png" alt="Veloce Dynamics Logo" class="logo">
+    <img src="images/Veloce Dynamics Logo no background.png" alt="Veloce Dynamics Logo" class="logo">
     
-    <h1>STEM Racing Reaction Test</h1>
-    <p>F1 drivers need a reaction time of around 0.200s. Do you have what it takes?</p>
-    
-    <div id="best-time-display" style="font-size: 1.2rem; font-weight: 700; color: var(--accent1); margin-bottom: 1.5rem; background: rgba(34, 211, 238, 0.1); padding: 0.5rem 1rem; border-radius: 99px; border: 1px solid rgba(34, 211, 238, 0.3); display: inline-block;">
-      Best Time: -- ms 🏆
-    </div>
+    <h1>F1 Start Reaction Test</h1>
+    <p>Wait for all 5 red lights to turn on. When they go OUT, click as fast as you can!</p>
+
+    <div id="best-time-display">Best Time: -- ms 🏆</div>
 
     <div id="click-area">
-      <div id="status-text">Click to Start</div>
+      <div class="lights-container">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+      </div>
+      <div id="status-text">Click to Start Sequence</div>
     </div>
 
     <a href="index.html" class="btn-secondary">← Back to Website</a>
@@ -169,68 +135,80 @@
     const clickArea = document.getElementById('click-area');
     const statusText = document.getElementById('status-text');
     const bestTimeDisplay = document.getElementById('best-time-display');
+    const lights = document.querySelectorAll('.light');
     
     let gameState = 'idle'; // idle, waiting, go, result
     let startTime;
     let timeoutId;
-
-    // CHANGED: This variable now starts empty every single time the page loads!
-    let bestTime = null;
+    let lightSequenceId;
+    let bestTime = null; // Resets when tab is closed
 
     clickArea.addEventListener('click', () => {
-      // 1. Idle state -> Start the game (Red Light)
+      
+      // 1. Start the F1 light sequence
       if (gameState === 'idle' || gameState === 'result') {
         gameState = 'waiting';
-        clickArea.className = 'waiting';
-        statusText.innerText = 'Wait for Green...';
+        statusText.innerText = 'Wait for lights out...';
+        lights.forEach(l => l.classList.remove('on'));
         
-        // Random wait time between 2 and 5 seconds
-        const randomDelay = Math.floor(Math.random() * 3000) + 2000;
+        let currentLight = 0;
         
-        timeoutId = setTimeout(() => {
-          gameState = 'go';
-          clickArea.className = 'go';
-          statusText.innerText = 'CLICK!';
-          startTime = Date.now();
-        }, randomDelay);
+        // Turn on one light every 1 second (1000ms)
+        lightSequenceId = setInterval(() => {
+          if (currentLight < 5) {
+            lights[currentLight].classList.add('on');
+            currentLight++;
+          } else {
+            // All 5 lights are on! Stop adding lights.
+            clearInterval(lightSequenceId);
+            
+            // Wait a random time (between 0.5s and 2.5s) before turning them off
+            const randomDelay = Math.floor(Math.random() * 2000) + 500;
+            
+            timeoutId = setTimeout(() => {
+              gameState = 'go';
+              lights.forEach(l => l.classList.remove('on')); // LIGHTS OUT!
+              statusText.innerText = 'GO!';
+              startTime = Date.now();
+            }, randomDelay);
+          }
+        }, 1000); 
       } 
       
-      // 2. Waiting state -> Clicked too early (Jump Start!)
+      // 2. Jump Start! (Clicked while lights were still coming on, or holding red)
       else if (gameState === 'waiting') {
+        clearInterval(lightSequenceId);
         clearTimeout(timeoutId);
         gameState = 'result';
-        clickArea.className = '';
-        clickArea.style.backgroundColor = 'rgba(30, 41, 59, 0.8)';
-        statusText.innerHTML = 'Jump Start! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked too early. Click to try again.</span>';
+        lights.forEach(l => l.classList.remove('on')); // Turn off lights
+        statusText.innerHTML = 'Jump Start! 🚫<br><span style="font-size: 1rem; font-weight: 400; color: #9ca3af;">You clicked before the lights went out. Click to try again.</span>';
       } 
       
-      // 3. Go state -> Successfully clicked on Green
+      // 3. Successfully clicked after lights went out
       else if (gameState === 'go') {
         const reactionTime = Date.now() - startTime;
         gameState = 'result';
-        clickArea.className = '';
-        clickArea.style.backgroundColor = 'rgba(30, 41, 59, 0.8)';
         
         let newBestAlert = "";
 
-        // CHANGED: Check if this is a new best time for this specific session
+        // Check for new best session time
         if (!bestTime || reactionTime < bestTime) {
           bestTime = reactionTime;
-          // Notice we removed the localStorage saving line here!
           bestTimeDisplay.innerText = `Best Time: ${bestTime} ms 🏆`;
           newBestAlert = "<br><span style='color: #fbbf24; font-weight: bold;'>NEW BEST TIME! 🎉</span>";
         }
 
-        // Add some fun commentary based on speed
+        // Fun F1 commentary based on speed
         let commentary = "";
-        if (reactionTime < 200) commentary = "F1 Level Reflexes! 🏎️💨";
-        else if (reactionTime < 300) commentary = "Great Speed! 🏁";
-        else if (reactionTime < 400) commentary = "Solid start! 🚥";
-        else commentary = "A bit slow off the line... 🐢";
+        if (reactionTime < 180) commentary = "F1 World Champion! 🏆🏎️";
+        else if (reactionTime < 250) commentary = "Incredible Start! 🏁";
+        else if (reactionTime < 350) commentary = "Good reaction! 🚥";
+        else commentary = "Are we deadass? 💀";
 
         statusText.innerHTML = `${reactionTime} ms ${newBestAlert}<br><span style="font-size: 1.2rem; font-weight: 400; color: var(--accent1);">${commentary}</span><br><span style="font-size: 0.9rem; font-weight: 400; color: #9ca3af; margin-top: 10px; display: block;">Click to play again</span>`;
       }
     });
   </script>
+
 </body>
 </html>
