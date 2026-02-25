@@ -434,6 +434,44 @@
       /* Move exactly -50% to switch seamlessly to the duplicate set */
       100% { transform: translateX(-50%); }
     }
+
+    /* MULTIMEDIA GALLERY */
+    .gallery-container {
+      width: 100%;
+      height: 220px; /* Adjust this to make the images taller or shorter */
+      overflow: hidden;
+      position: relative;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 0; /* Handled by margin on images for perfect looping */
+      height: 100%;
+      width: max-content;
+      animation: scrollGallery 40s linear infinite; /* Speed of the scroll */
+    }
+
+    .gallery-track:hover {
+      animation-play-state: paused; /* Optional: pauses scrolling when they hover over it! */
+    }
+
+    .gallery-track img {
+      height: 100%;
+      width: auto;
+      flex-shrink: 0;
+      display: block;
+      margin-right: 15px; /* Space between images */
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    @keyframes scrollGallery {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
     .car-stats {
       display: flex;
       justify-content: space-between;
@@ -1150,6 +1188,36 @@
         <img src="images/Pit Display 7-Photoroom.png" alt="Pit Display" style="width: 100%; border-radius: 12px; margin-top: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
       </div>
     </div>
+
+      <div class="team-layout" style="margin-top: 2rem;">
+        <div class="team-right-card" style="grid-column: span 2;">
+          <h3>Multimedia Gallery</h3>
+          <p>
+            A look at our engineering journey, testing phases, and various iterations of the Veloce Dynamics car.
+          </p>
+          
+          <div class="gallery-container">
+            <div class="gallery-track">
+              <img src="images/CAR A.PNG" alt="Car Render A" />
+              <img src="images/CAR A1.png" alt="Car Render A1" />
+              <img src="images/CAR A2.png" alt="Car Render A2" />
+              <img src="images/CAR A3.png" alt="Car Render A3" />
+              <img src="images/CAR A5.png" alt="Car Render A5" />
+              <img src="images/CAR A6.png" alt="Car Render A6" />
+              <img src="images/CAR A7.png" alt="Car Render A7" />
+              
+              <img src="images/CAR A.PNG" alt="Car Render A" />
+              <img src="images/CAR A1.png" alt="Car Render A1" />
+              <img src="images/CAR A2.png" alt="Car Render A2" />
+              <img src="images/CAR A3.png" alt="Car Render A3" />
+              <img src="images/CAR A5.png" alt="Car Render A5" />
+              <img src="images/CAR A6.png" alt="Car Render A6" />
+              <img src="images/CAR A7.png" alt="Car Render A7" />
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <!-- TEACHERS / MENTORS SECTION -->
       <div class="team-layout" style="margin-top: 2rem;">
         <div class="team-right-card" style="grid-column: span 2;">
